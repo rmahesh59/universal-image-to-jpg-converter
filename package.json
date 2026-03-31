@@ -1,0 +1,8 @@
+{
+  "name": "universal-image-to-jpg-converter",
+  "private": true,
+  "scripts": {
+    "dev": "sh ./dev.sh",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build"
+  }
+}

@@ -1,0 +1,67 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+  color: #24324a;
+  background-color: #f7f1e8;
+  --bg-base: #f7f1e8;
+  --bg-warm: #fff9f2;
+  --bg-accent: #eef6ff;
+  --surface: rgba(255, 252, 247, 0.82);
+  --surface-strong: #fffdf9;
+  --surface-soft: #f7efe3;
+  --border: rgba(173, 146, 105, 0.22);
+  --border-strong: rgba(112, 143, 186, 0.25);
+  --text: #24324a;
+  --text-soft: #66758d;
+  --text-faint: #8f98a8;
+  --primary: #2e7a67;
+  --primary-strong: #256755;
+  --secondary: #d8894d;
+  --secondary-soft: #fff0dc;
+  --danger-bg: #fff1ef;
+  --danger-border: rgba(197, 89, 72, 0.24);
+  --danger-text: #b24d43;
+  --success-text: #2f7d4a;
+  --shadow-soft: 0 16px 40px rgba(170, 143, 110, 0.12);
+  --shadow-card: 0 20px 44px rgba(103, 86, 62, 0.12);
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(255, 221, 190, 0.75), transparent 32%),
+    radial-gradient(circle at 85% 15%, rgba(180, 225, 244, 0.85), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(221, 236, 207, 0.7), transparent 32%),
+    linear-gradient(180deg, var(--bg-warm), var(--bg-base) 45%, #f3ecdf 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(210, 189, 162, 0.35);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(122, 160, 192, 0.55);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 138, 177, 0.8);
+}
