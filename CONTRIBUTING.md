@@ -29,3 +29,11 @@ Use this checklist whenever the app changes so code, behavior, and documentation
 - storage model and limitations
 
 If code changes one of those areas, update the architecture file in the same change.
+
+## Sync Rule
+When we implement or change anything meaningful in the app, we should keep these files in sync in the same change whenever applicable:
+
+- `README.md`
+- `HEIC_TO_JPG_APP_ARCHITECTURE.md`
+- `CHANGELOG.md`
+- `CONTRIBUTING.md` when the maintenance process itself changes

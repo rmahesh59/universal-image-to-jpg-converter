@@ -37,6 +37,18 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
             <option value="keep_all">Keep all exact duplicates with suffix</option>
           </select>
         </label>
+
+        <label>
+          Performance Mode
+          <select
+            value={settings.performanceMode}
+            onChange={(e) => set("performanceMode", e.target.value as ConversionSettings["performanceMode"])}
+          >
+            <option value="quiet">Quiet (less laptop load)</option>
+            <option value="balanced">Balanced</option>
+            <option value="fast">Fast (higher machine usage)</option>
+          </select>
+        </label>
       </div>
 
       <button

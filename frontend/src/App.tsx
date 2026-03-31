@@ -26,6 +26,7 @@ const defaultSettings: ConversionSettings = {
   deleteOriginalAfterSuccess: true,
   keepOriginal: false,
   duplicateMode: "ask",
+  performanceMode: "balanced",
 };
 
 const RECENT_SOURCE_PATHS_KEY = "recent-source-paths";

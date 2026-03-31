@@ -120,6 +120,7 @@ Each created job has:
 - `destinationPath`
 - totals and counters
 - per-file status list
+- aggregated timing and throughput metrics
 - current file
 - status (`idle`, `running`, `completed`, `cancelled`, `failed`)
 - timestamps
@@ -128,6 +129,16 @@ Each created job has:
 Jobs are created in memory by `jobCoordinator.createJob(...)` and returned from `jobCoordinator.getAllJobs()`.
 
 There is currently no persistent restart-safe job storage. If the backend restarts, in-memory job state is lost, but already written JPG files remain on disk.
+
+## Performance Notes
+- Non-interactive duplicate modes (`skip_all`, `keep_all`) use controlled parallel processing in the backend job queue.
+- Interactive duplicate mode (`ask`) stays sequential so duplicate prompts remain predictable and safe.
+- Existing JPG/JPEG files are copied directly instead of being re-encoded.
+- Completed jobs expose aggregated performance metrics such as hash time, convert time, write time, duplicate wait time, and queue concurrency.
+- A user-selectable performance mode controls how aggressively the backend uses concurrency:
+  - `quiet`: lower laptop load
+  - `balanced`: default behavior
+  - `fast`: higher machine usage for more throughput
 
 ## Duplicate Detection and Naming
 Duplicate detection is content-based:

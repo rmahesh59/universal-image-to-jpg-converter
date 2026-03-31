@@ -11,6 +11,8 @@ Convert HEIC, HEIF, PNG, WEBP, BMP, TIFF, and JPEG-family images into JPG files 
 - Lets you decide how to handle duplicates
 - Supports multiple batch jobs running in parallel
 - Tracks live progress for each job
+- Shows final performance metrics such as duration, throughput, hash time, convert time, and write time
+- Offers `Quiet`, `Balanced`, and `Fast` performance modes
 - Can cancel a running job
 - Can optionally delete original files after successful output write
 - Can be opened from another device on the same Wi-Fi network
@@ -321,9 +323,11 @@ Check:
 - [README.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/README.md): install, run, usage, features, and operational guide
 - [HEIC_TO_JPG_APP_ARCHITECTURE.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/HEIC_TO_JPG_APP_ARCHITECTURE.md): technical architecture and shared-state behavior
 - [CONTRIBUTING.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/CONTRIBUTING.md): maintenance checklist for future changes
+- [CHANGELOG.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/CHANGELOG.md): running history of meaningful app changes
 
 ## Documentation Maintenance Rule
 If app behavior changes, update:
 - `README.md` for user-facing flow or setup changes
 - `HEIC_TO_JPG_APP_ARCHITECTURE.md` for technical behavior changes
+- `CHANGELOG.md` for meaningful features, fixes, and behavior changes
 - `CONTRIBUTING.md` if the maintenance process changes

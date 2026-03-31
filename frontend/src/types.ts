@@ -1,4 +1,5 @@
 export type DuplicateMode = "ask" | "skip_all" | "keep_all";
+export type PerformanceMode = "quiet" | "balanced" | "fast";
 
 export interface ConversionSettings {
   jpegQuality: number;
@@ -6,6 +7,7 @@ export interface ConversionSettings {
   deleteOriginalAfterSuccess: boolean;
   keepOriginal: boolean;
   duplicateMode: DuplicateMode;
+  performanceMode: PerformanceMode;
 }
 
 export type FileStatus =
@@ -52,7 +54,21 @@ export interface BatchProgress {
   currentFile?: string;
   status: "idle" | "running" | "completed" | "cancelled" | "failed";
   fileItems: FileItem[];
+  metrics: BatchMetrics;
   waitingDuplicate?: DuplicatePrompt;
   startedAt: string;
   finishedAt?: string;
+}
+
+export interface BatchMetrics {
+  performanceMode: PerformanceMode;
+  queueConcurrency: number;
+  hashedCount: number;
+  copiedJpgCount: number;
+  convertedImageCount: number;
+  totalHashMs: number;
+  totalConvertMs: number;
+  totalWriteMs: number;
+  totalDeleteMs: number;
+  totalDuplicateWaitMs: number;
 }

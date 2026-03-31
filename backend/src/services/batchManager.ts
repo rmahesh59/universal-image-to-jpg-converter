@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import os from "os";
 import path from "path";
 import PQueue from "p-queue";
 import { buildOutputFileName } from "./fileNameService";
@@ -40,6 +41,18 @@ export class BatchJob {
       pending: initialFileItems.length,
       status: "idle",
       fileItems: initialFileItems,
+      metrics: {
+        performanceMode: this.settings.performanceMode,
+        queueConcurrency: 1,
+        hashedCount: 0,
+        copiedJpgCount: 0,
+        convertedImageCount: 0,
+        totalHashMs: 0,
+        totalConvertMs: 0,
+        totalWriteMs: 0,
+        totalDeleteMs: 0,
+        totalDuplicateWaitMs: 0,
+      },
       startedAt: new Date().toISOString(),
     };
   }
@@ -92,7 +105,17 @@ export class BatchJob {
   private async processBatch(settings: ConversionSettings): Promise<void> {
     try {
       await fs.mkdir(this.progress.destinationPath, { recursive: true });
-      const concurrency = settings.duplicateMode === "ask" ? 1 : 4;
+      const available = os.availableParallelism();
+      const concurrency =
+        settings.duplicateMode === "ask"
+          ? 1
+          : settings.performanceMode === "quiet"
+            ? 2
+            : settings.performanceMode === "fast"
+              ? Math.min(Math.max(4, available - 1), 8)
+              : Math.min(Math.max(2, Math.floor(available / 2)), 6);
+      this.progress.metrics.performanceMode = settings.performanceMode;
+      this.progress.metrics.queueConcurrency = concurrency;
       const queue = new PQueue({ concurrency });
 
       await Promise.all(
@@ -135,7 +158,10 @@ export class BatchJob {
 
     try {
       const inputBuffer = await fs.readFile(file.sourcePath);
+      const hashStart = performance.now();
       const sha = sha256Hex(inputBuffer);
+      this.progress.metrics.totalHashMs += performance.now() - hashStart;
+      this.progress.metrics.hashedCount += 1;
       const hashPrefix = sha.slice(0, 24);
       file.hash = sha;
 
@@ -187,21 +213,29 @@ export class BatchJob {
       });
       const outputPath = path.join(this.progress.destinationPath, outputName);
       const ext = path.extname(file.originalName).toLowerCase();
+      const writeStart = performance.now();
 
       if (ext === ".jpg" || ext === ".jpeg") {
         await fs.copyFile(file.sourcePath, outputPath);
+        this.progress.metrics.copiedJpgCount += 1;
       } else {
+        const convertStart = performance.now();
         const jpgBuffer = await convertHeicToJpg(inputBuffer, settings.jpegQuality);
+        this.progress.metrics.totalConvertMs += performance.now() - convertStart;
+        this.progress.metrics.convertedImageCount += 1;
         await fs.writeFile(outputPath, jpgBuffer);
       }
 
       const stat = await fs.stat(outputPath);
+      this.progress.metrics.totalWriteMs += performance.now() - writeStart;
       if (!stat.isFile() || stat.size <= 0) {
         throw new Error("Output file integrity check failed.");
       }
 
       if (settings.deleteOriginalAfterSuccess && !settings.keepOriginal) {
+        const deleteStart = performance.now();
         await fs.unlink(file.sourcePath);
+        this.progress.metrics.totalDeleteMs += performance.now() - deleteStart;
       }
 
       file.outputFileName = outputName;
@@ -247,9 +281,11 @@ export class BatchJob {
     };
     this.progress.waitingDuplicate = waitingDuplicate;
 
+    const waitStart = performance.now();
     return new Promise<DuplicateDecision>((resolve) => {
       this.duplicateResolvers.set(file.id, (decision) => {
         this.progress.waitingDuplicate = undefined;
+        this.progress.metrics.totalDuplicateWaitMs += performance.now() - waitStart;
         resolve(decision);
       });
     });
