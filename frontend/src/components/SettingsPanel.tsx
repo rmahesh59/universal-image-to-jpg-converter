@@ -12,11 +12,18 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
     onChange({ ...settings, [key]: value });
 
   return (
-    <div className="card">
-      <h3>Settings</h3>
+    <div className="card settings-card">
+      <div className="settings-header">
+        <div>
+          <h3>Settings</h3>
+          <p>Keep the defaults for the simplest experience, or adjust them for this batch.</p>
+        </div>
+        <div className="settings-mode-chip">Mode: {settings.performanceMode}</div>
+      </div>
       <div className="settings-grid settings-grid-basic">
-        <label>
-          JPEG Quality ({settings.jpegQuality})
+        <label className="setting-field">
+          <span className="setting-label">JPEG Quality</span>
+          <span className="setting-value">{settings.jpegQuality}</span>
           <input
             type="range"
             min={60}
@@ -24,10 +31,11 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
             value={settings.jpegQuality}
             onChange={(e) => set("jpegQuality", Number(e.target.value))}
           />
+          <small>Higher values keep more detail but create larger files.</small>
         </label>
 
-        <label>
-          Duplicate Handling
+        <label className="setting-field">
+          <span className="setting-label">Duplicate Handling</span>
           <select
             value={settings.duplicateMode}
             onChange={(e) => set("duplicateMode", e.target.value as ConversionSettings["duplicateMode"])}
@@ -36,10 +44,11 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
             <option value="skip_all">Skip all exact duplicates</option>
             <option value="keep_all">Keep all exact duplicates with suffix</option>
           </select>
+          <small>Use ask mode when you want full control over duplicate decisions.</small>
         </label>
 
-        <label>
-          Performance Mode
+        <label className="setting-field">
+          <span className="setting-label">Performance Mode</span>
           <select
             value={settings.performanceMode}
             onChange={(e) => set("performanceMode", e.target.value as ConversionSettings["performanceMode"])}
@@ -48,6 +57,7 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
             <option value="balanced">Balanced</option>
             <option value="fast">Fast (higher machine usage)</option>
           </select>
+          <small>Balanced is the best default for most batches.</small>
         </label>
       </div>
 
@@ -61,32 +71,32 @@ export function SettingsPanel({ settings, onChange }: SettingsPanelProps) {
 
       {advancedOpen && (
         <div className="settings-grid settings-grid-advanced">
-        <label className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={settings.includeSubfolders}
-            onChange={(e) => set("includeSubfolders", e.target.checked)}
-          />
-          Include subfolders
-        </label>
+          <label className="checkbox-row">
+            <input
+              type="checkbox"
+              checked={settings.includeSubfolders}
+              onChange={(e) => set("includeSubfolders", e.target.checked)}
+            />
+            Include subfolders
+          </label>
 
-        <label className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={settings.deleteOriginalAfterSuccess}
-            onChange={(e) => set("deleteOriginalAfterSuccess", e.target.checked)}
-          />
-          Delete original after successful conversion
-        </label>
+          <label className="checkbox-row">
+            <input
+              type="checkbox"
+              checked={settings.deleteOriginalAfterSuccess}
+              onChange={(e) => set("deleteOriginalAfterSuccess", e.target.checked)}
+            />
+            Delete original after successful conversion
+          </label>
 
-        <label className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={settings.keepOriginal}
-            onChange={(e) => set("keepOriginal", e.target.checked)}
-          />
-          Keep original (overrides delete)
-        </label>
+          <label className="checkbox-row">
+            <input
+              type="checkbox"
+              checked={settings.keepOriginal}
+              onChange={(e) => set("keepOriginal", e.target.checked)}
+            />
+            Keep original (overrides delete)
+          </label>
         </div>
       )}
     </div>

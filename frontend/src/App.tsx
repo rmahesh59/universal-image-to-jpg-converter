@@ -377,6 +377,7 @@ function App() {
   const jpgInputs = scannedFiles.filter((file) => /\.(jpe?g)$/i.test(file.originalName)).length;
   const nonJpgInputs = scannedFiles.length - jpgInputs;
   const topBreakdown = scanSummary?.breakdown.slice(0, 8) ?? [];
+  const showAboutPanel = jobs.length === 0 && scanStatus === "idle";
 
   return (
     <div className="app-shell">
@@ -399,31 +400,27 @@ function App() {
         </div>
         <h1>Universal Image to JPG Converter</h1>
         <p>
-          Convert HEIC, PNG, WEBP, and more to JPG with hash-safe names, duplicate
-          review, and safe original deletion. <strong>Full support for parallel batch queues!</strong>
+          Convert HEIC, PNG, WEBP, and more into clean JPG batches with local processing,
+          duplicate safety, and live progress.
         </p>
         <div className="hero-stats">
           <div className="hero-stat">
-            <span>Jobs Running</span>
+            <span>Running</span>
             <strong>{runningJobs}</strong>
           </div>
           <div className="hero-stat">
-            <span>Completed Jobs</span>
+            <span>Completed</span>
             <strong>{completedJobs}</strong>
           </div>
           <div className="hero-stat">
-            <span>Waiting For Decision</span>
+            <span>Needs Review</span>
             <strong>{duplicateWaitingJobs}</strong>
           </div>
         </div>
-        <div className="hero-ribbon">
-          <span>HEIC</span>
-          <span>PNG</span>
-          <span>WEBP</span>
-          <span>TIFF</span>
-          <span>Smart Duplicate Review</span>
-          <span>Parallel Jobs</span>
-          <span>Safe Delete</span>
+        <div className="hero-steps">
+          <span>1. Choose folders</span>
+          <span>2. Scan and review</span>
+          <span>3. Start conversion</span>
         </div>
       </header>
 
@@ -455,7 +452,7 @@ function App() {
         </div>
       )}
 
-      <AboutPanel />
+      {showAboutPanel && <AboutPanel />}
 
       <div className="card hero-card">
         <div className="hero-topbar">
@@ -502,7 +499,7 @@ function App() {
               <div>
                 <h4 className="section-title">Folder Scan Breakdown</h4>
                 <p className="scan-preview-subtitle">
-                  We only convert supported image files. Other file types like MOV are counted and ignored.
+                  Supported image files are ready for conversion. Other file types are counted but ignored.
                 </p>
               </div>
             </div>
@@ -591,8 +588,8 @@ function App() {
                 workflow with duplicate detection, previews, progress tracking, and remembered settings.
               </p>
               <div className="idle-points">
-                <span>Live job celebrations</span>
-                <span>Phone + laptop monitoring</span>
+                <span>Local processing</span>
+                <span>Duplicate-safe output</span>
                 <span>Recent folders remembered</span>
               </div>
             </div>

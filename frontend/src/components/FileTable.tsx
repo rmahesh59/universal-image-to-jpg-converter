@@ -40,6 +40,12 @@ export function FileTable({
     [files, query, statusFilter]
   );
 
+  const formatStatus = (status: string) =>
+    status
+      .split("_")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+
   return (
     <div className="card table-card">
       <div className="table-header">
@@ -86,7 +92,9 @@ export function FileTable({
                 </td>
               )}
               <td>{f.relativePath}</td>
-              <td>{f.status}</td>
+              <td>
+                <span className={`status-pill status-${f.status}`}>{formatStatus(f.status)}</span>
+              </td>
               <td>{f.hash?.slice(0, 24) ?? "-"}</td>
               <td>{f.outputFileName ?? "-"}</td>
               <td>{f.error ?? "-"}</td>

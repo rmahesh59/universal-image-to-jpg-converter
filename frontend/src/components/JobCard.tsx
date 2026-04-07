@@ -31,6 +31,7 @@ export function JobCard({
     failed: job.failed,
     duplicates: job.duplicateCount,
   };
+  const statusLabel = job.status.charAt(0).toUpperCase() + job.status.slice(1);
 
   return (
     <div className={`card job-card ${expanded ? "expanded" : ""}`}>
@@ -40,12 +41,12 @@ export function JobCard({
       >
         <div>
           <h3 className="job-title">
-            Job: {job.sourcePath.split("/").pop() || job.sourcePath}
+            {job.sourcePath.split("/").pop() || job.sourcePath}
           </h3>
-          <span className="job-meta">
-            {new Date(job.startedAt).toLocaleString()} • Status:{" "}
-            <strong className={statusClass}>{job.status.toUpperCase()}</strong>
-          </span>
+          <div className="job-meta-row">
+            <span className="job-meta">{new Date(job.startedAt).toLocaleString()}</span>
+            <span className={`status-pill ${statusClass}`}>{statusLabel}</span>
+          </div>
         </div>
         <div className="header-actions">
           {job.status === "running" && (
