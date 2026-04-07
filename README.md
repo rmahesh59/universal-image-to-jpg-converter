@@ -289,7 +289,6 @@ npm run build
 - `frontend/` - React + Vite frontend
 - `backend/` - Express + TypeScript backend
 - `dev.mjs` - cross-platform root dev launcher
-- `dev.sh` - shell-based launcher kept for local convenience
 - `HEIC_TO_JPG_APP_ARCHITECTURE.md` - technical architecture notes
 - `CHANGELOG.md` - meaningful release notes
 - `CONTRIBUTING.md` - maintenance checklist
