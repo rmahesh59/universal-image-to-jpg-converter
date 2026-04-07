@@ -19,6 +19,8 @@ The app helps you:
 - track progress while a batch runs
 - review a final summary when the job finishes
 
+If you want the technical system overview, read `HEIC_TO_JPG_APP_ARCHITECTURE.md`.
+
 ## Features
 - Converts `HEIC`, `HEIF`, `PNG`, `WEBP`, `BMP`, `TIFF`, and `TIF` into JPG
 - Copies existing `JPG` and `JPEG` files through without re-encoding
@@ -191,8 +193,6 @@ http://localhost:5173
 9. If the app finds an exact duplicate, choose how to handle it.
 10. Review the final summary when the job is done.
 
-The app now includes an in-app About / Getting Started section so new users can understand the flow without leaving the page.
-
 ## Folder Path Examples
 macOS:
 
@@ -296,10 +296,3 @@ npm run build
 - `HEIC_TO_JPG_APP_ARCHITECTURE.md` - technical architecture notes
 - `CHANGELOG.md` - meaningful release notes
 - `CONTRIBUTING.md` - maintenance checklist
-
-## Documentation Maintenance
-When behavior changes, keep these files in sync:
-- `README.md`
-- `HEIC_TO_JPG_APP_ARCHITECTURE.md`
-- `CHANGELOG.md`
-- `CONTRIBUTING.md` when the maintenance process changes

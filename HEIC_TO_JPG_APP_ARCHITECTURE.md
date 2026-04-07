@@ -1,5 +1,8 @@
 # Universal Image to JPG App Architecture
 
+This file is for contributors or curious users who want the technical picture behind the app.
+Read this after the main `README.md` if you want to understand how the frontend, backend, and job flow work together.
+
 ## Document Status
 - Last reviewed: 2026-04-07
 - Reviewed against:
@@ -15,6 +18,15 @@
 
 ## Purpose
 This app scans local folders on the laptop, converts supported image formats into JPG, detects exact duplicates by file hash, and manages long-running batch jobs through a shared backend. It is designed for local-network use, so the UI can be opened from the laptop itself or from another device, such as a phone on the same Wi-Fi network.
+
+## Simple End-To-End Flow
+1. The user enters a source folder and destination folder in the browser.
+2. The frontend asks the backend to scan the source folder.
+3. The backend returns the supported image list and file breakdown.
+4. The frontend shows the preview and the user chooses which files to include.
+5. The frontend creates a batch job in the backend.
+6. The backend processes the files, updates shared job state, and pauses if a duplicate needs a decision.
+7. The frontend polls for updates and shows progress until the job finishes.
 
 ## Supported Inputs
 - HEIC
@@ -229,14 +241,3 @@ Original deletion happens only when:
 - Scan previews are not synchronized across devices
 - Folder access happens on the laptop filesystem where the backend is running; a phone can control the app, but it is still operating on laptop-accessible paths
 - The built-in folder picker can help with folder selection in supported browsers, but the user still has to confirm or paste the full filesystem path because the backend needs a real path string
-
-## Documentation Maintenance Expectation
-`HEIC_TO_JPG_APP_ARCHITECTURE.md` should be updated whenever behavior, API shape, shared-state rules, or major UI/backend responsibilities change.
-
-In practice, that means we should proactively keep this file aligned with code changes, especially when changing:
-- sync behavior between devices
-- backend endpoints
-- duplicate handling flow
-- job lifecycle
-- supported formats
-- deletion rules
