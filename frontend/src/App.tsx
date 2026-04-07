@@ -391,36 +391,78 @@ function App() {
         }
       />
       <header>
-        <div className="eyebrow-row">
-          <span className="eyebrow-pill">Local Network Ready</span>
-          <span className="eyebrow-divider" aria-hidden="true" />
-          <span className="eyebrow-note">
-            Convert iPhone photos and common image formats into clean JPG batches
-          </span>
-        </div>
-        <h1>Universal Image to JPG Converter</h1>
-        <p>
-          Convert HEIC, PNG, WEBP, and more into clean JPG batches with local processing,
-          duplicate safety, and live progress.
-        </p>
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span>Running</span>
-            <strong>{runningJobs}</strong>
+        <div className="hero-layout">
+          <div className="hero-copy">
+            <div className="eyebrow-row">
+              <span className="eyebrow-pill">Local Network Ready</span>
+              <span className="eyebrow-divider" aria-hidden="true" />
+              <span className="eyebrow-note">
+                Convert iPhone photos and common image formats into clean JPG batches
+              </span>
+            </div>
+            <h1>Universal Image to JPG Converter</h1>
+            <p>
+              A local-first batch converter with duplicate-safe output, scan previews, and live
+              progress that feels fast, polished, and easy to trust.
+            </p>
+            <div className="hero-steps">
+              <span>Choose folders</span>
+              <span>Scan and review</span>
+              <span>Start conversion</span>
+            </div>
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <span>Running</span>
+                <strong>{runningJobs}</strong>
+              </div>
+              <div className="hero-stat">
+                <span>Completed</span>
+                <strong>{completedJobs}</strong>
+              </div>
+              <div className="hero-stat">
+                <span>Needs Review</span>
+                <strong>{duplicateWaitingJobs}</strong>
+              </div>
+            </div>
           </div>
-          <div className="hero-stat">
-            <span>Completed</span>
-            <strong>{completedJobs}</strong>
+
+          <div className="hero-stage" aria-hidden="true">
+            <div className="hero-stage-glow" />
+            <div className="hero-stage-card hero-stage-card-main">
+              <div className="hero-stage-tag">Batch Engine</div>
+              <div className="hero-stage-title">HEIC to JPG workflow</div>
+              <div className="hero-stage-metrics">
+                <div>
+                  <span>Formats</span>
+                  <strong>HEIC, PNG, WEBP</strong>
+                </div>
+                <div>
+                  <span>Duplicate mode</span>
+                  <strong>SHA-256 checked</strong>
+                </div>
+                <div>
+                  <span>Output style</span>
+                  <strong>Conflict-safe names</strong>
+                </div>
+              </div>
+            </div>
+            <div className="hero-stage-card hero-stage-card-mini hero-stage-card-left">
+              <span>Local only</span>
+              <strong>Private by default</strong>
+            </div>
+            <div className="hero-stage-card hero-stage-card-mini hero-stage-card-right">
+              <span>Performance modes</span>
+              <strong>Quiet / Balanced / Fast</strong>
+            </div>
+            <div className="hero-format-cloud">
+              <span>HEIC</span>
+              <span>HEIF</span>
+              <span>PNG</span>
+              <span>WEBP</span>
+              <span>TIFF</span>
+              <span>JPG</span>
+            </div>
           </div>
-          <div className="hero-stat">
-            <span>Needs Review</span>
-            <strong>{duplicateWaitingJobs}</strong>
-          </div>
-        </div>
-        <div className="hero-steps">
-          <span>1. Choose folders</span>
-          <span>2. Scan and review</span>
-          <span>3. Start conversion</span>
         </div>
       </header>
 
@@ -456,10 +498,15 @@ function App() {
 
       <div className="card hero-card">
         <div className="hero-topbar">
-          <h3 className="hero-title">Create New Job</h3>
+          <div>
+            <h3 className="hero-title">Create New Job</h3>
+            <p className="hero-topbar-copy">
+              Scan first, confirm the exact files you want, then launch the batch.
+            </p>
+          </div>
           {jobs.length > 0 && (
             <span className="parallel-badge">
-              ⚡ Parallel Mode Active: You can start another job right now!
+              Parallel mode active
             </span>
           )}
         </div>
