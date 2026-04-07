@@ -14,6 +14,7 @@ import { SettingsPanel } from "./components/SettingsPanel";
 import { DuplicateReviewModal } from "./components/DuplicateReviewModal";
 import { JobCard } from "./components/JobCard";
 import { FileTable } from "./components/FileTable";
+import { AboutPanel } from "./components/AboutPanel";
 import {
   EventCelebration,
   type CelebrationEvent,
@@ -176,7 +177,7 @@ function App() {
   useEffect(() => {
     let mounted = true;
 
-    const timer = setInterval(async () => {
+    const refreshJobs = async () => {
       try {
         const fetchedJobs = await getJobs();
         if (mounted === false) return;
@@ -184,6 +185,12 @@ function App() {
       } catch {
         // Keep cached jobs visible if polling fails.
       }
+    };
+
+    void refreshJobs();
+
+    const timer = setInterval(async () => {
+      await refreshJobs();
     }, 1200);
 
     return () => {
@@ -447,6 +454,8 @@ function App() {
           </div>
         </div>
       )}
+
+      <AboutPanel />
 
       <div className="card hero-card">
         <div className="hero-topbar">

@@ -12,17 +12,22 @@ declare global {
 }
 
 export function FolderPicker({ label, value, onChange, recentPaths = [] }: FolderPickerProps) {
+  const isWindows = typeof navigator !== "undefined" && navigator.userAgent.includes("Windows");
+  const examplePath = isWindows
+    ? "C:\\Users\\YourName\\Pictures\\iPhone Photos"
+    : "/Users/yourname/Pictures/iPhone Photos";
+
   const pick = async () => {
     if (window.showDirectoryPicker) {
       const handle = await window.showDirectoryPicker();
       const path = prompt(
-        `Selected: ${handle.name}\nPaste the absolute folder path for backend access:`,
+        `Selected: ${handle.name}\nPaste the full folder path so the local backend can reach it:`,
         value
       );
       if (path) onChange(path.trim());
       return;
     }
-    const path = prompt("Paste absolute folder path:", value);
+    const path = prompt("Paste the full folder path:", value);
     if (path) onChange(path.trim());
   };
 
@@ -34,12 +39,16 @@ export function FolderPicker({ label, value, onChange, recentPaths = [] }: Folde
           className="text-input"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="/Users/mahesh/Downloads/Photos"
+          placeholder={examplePath}
+          spellCheck={false}
         />
         <button type="button" onClick={pick}>
           Choose
         </button>
       </div>
+      <p className="field-hint">
+        Enter the full folder path from your computer. Example: <code>{examplePath}</code>
+      </p>
       {recentPaths.length > 0 && (
         <div className="recent-paths">
           <div className="recent-paths-label">Recent</div>

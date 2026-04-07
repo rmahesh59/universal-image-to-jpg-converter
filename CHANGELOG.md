@@ -2,6 +2,20 @@
 
 All meaningful changes to this project should be recorded here.
 
+## 2026-04-07
+
+### Added
+- Cross-platform root development launcher with `dev.mjs` so `npm run dev` works cleanly on both Windows and macOS.
+- Root `npm run install:all` helper for installing frontend and backend dependencies in one step.
+- In-app About / Getting Started panel for first-time users.
+- Clearer folder path guidance with Windows and macOS examples directly in the UI.
+- Reduced-motion support for animated UI elements.
+
+### Changed
+- README rewritten to be more beginner-friendly with clearer Windows and macOS setup instructions.
+- Architecture document updated to reflect the root launcher, onboarding panel, immediate job fetch, and browser-local stored state.
+- Job polling now fetches once immediately on load instead of waiting for the first interval.
+
 ## 2026-03-31
 
 ### Added

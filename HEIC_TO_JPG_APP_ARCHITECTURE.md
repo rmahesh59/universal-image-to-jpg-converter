@@ -1,9 +1,11 @@
 # Universal Image to JPG App Architecture
 
 ## Document Status
-- Last reviewed: 2026-03-27
+- Last reviewed: 2026-04-07
 - Reviewed against:
   - `frontend/src/App.tsx`
+  - `frontend/src/components/AboutPanel.tsx`
+  - `frontend/src/components/FolderPicker.tsx`
   - `frontend/src/api.ts`
   - `backend/src/server.ts`
   - `backend/src/routes.ts`
@@ -30,6 +32,7 @@ JPG and JPEG inputs are not re-encoded. They are copied through as-is after dupl
 ## High-Level Architecture
 - `frontend/`: React + TypeScript + Vite single-page app.
 - `backend/`: Node.js + Express + TypeScript API server.
+- `dev.mjs`: cross-platform root development launcher for Windows and macOS.
 - Storage model: no database; active job state is held in backend memory and durable outputs are written to the filesystem.
 
 ## How Laptop and Phone Work Together
@@ -54,6 +57,7 @@ This shared state is exposed by:
 - `GET /api/jobs/:jobId`
 
 The frontend polls `GET /api/jobs` every 1.2 seconds, so all connected devices can see the same job list and progress once jobs exist.
+It also performs an immediate fetch on first load so users do not have to wait for the first polling interval before seeing active jobs.
 
 ## What Is Not Shared Across Devices
 These parts are local to the browser tab that triggered them:
@@ -67,6 +71,7 @@ Important detail:
 - `POST /api/scan` does call the backend.
 - But the scan result is returned only to the browser tab that requested it.
 - The result is stored in React state (`scannedFiles`, `scanStatus`) and is not saved in backend memory.
+- Recent paths, recent source-destination pairs, last-used settings, and cached job history are stored in browser `localStorage`, so they are browser-local rather than shared backend state.
 
 So if you scan on the laptop, the phone does not automatically get the scanned preview. Cross-device "sync" becomes visible mainly after a job is created, because jobs are stored centrally in the backend `jobCoordinator`.
 
@@ -75,6 +80,7 @@ Main file:
 - `frontend/src/App.tsx`
 
 Main responsibilities:
+- Show in-app onboarding guidance for first-time users
 - Capture source and destination folder paths
 - Capture conversion settings
 - Trigger scan
@@ -83,6 +89,7 @@ Main responsibilities:
 - Show duplicate resolution modal when a running job pauses for a decision
 
 Key components:
+- `AboutPanel`: plain-language "what this app does" and "how to start" guidance
 - `FolderPicker`: source / destination path entry
 - `SettingsPanel`: JPEG quality, duplicate mode, subfolder and delete/keep options
 - `FileTable`: scanned file preview and per-job file list
@@ -221,6 +228,7 @@ Original deletion happens only when:
 - No real-time push channel such as WebSocket or SSE; updates rely on polling
 - Scan previews are not synchronized across devices
 - Folder access happens on the laptop filesystem where the backend is running; a phone can control the app, but it is still operating on laptop-accessible paths
+- The built-in folder picker can help with folder selection in supported browsers, but the user still has to confirm or paste the full filesystem path because the backend needs a real path string
 
 ## Documentation Maintenance Expectation
 `HEIC_TO_JPG_APP_ARCHITECTURE.md` should be updated whenever behavior, API shape, shared-state rules, or major UI/backend responsibilities change.

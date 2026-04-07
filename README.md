@@ -1,21 +1,34 @@
 # Universal Image to JPG Converter
 
-Convert HEIC, HEIF, PNG, WEBP, BMP, TIFF, and JPEG-family images into JPG files using a local web app that runs on your laptop and can also be controlled from your phone on the same network.
+Convert iPhone photos and common image files into JPG files on your own computer.
 
-## What This App Does
-- Scans a source folder for supported image files
-- Shows a preview list before conversion starts
-- Converts supported formats to JPG
-- Passes through existing JPG and JPEG files without re-encoding
-- Detects exact duplicates using SHA-256 file hashes
-- Lets you decide how to handle duplicates
-- Supports multiple batch jobs running in parallel
-- Tracks live progress for each job
-- Shows final performance metrics such as duration, throughput, hash time, convert time, and write time
-- Offers `Quiet`, `Balanced`, and `Fast` performance modes
-- Can cancel a running job
-- Can optionally delete original files after successful output write
-- Can be opened from another device on the same Wi-Fi network
+This app runs locally:
+- the backend scans folders and processes files on your computer
+- the frontend gives you a simple browser interface to review and start jobs
+
+No online image conversion service is used. Your files stay on your machine.
+
+## Overview
+This project is for people who want a clean, visual way to convert batches of images into JPG files without using command-line tools or uploading photos to a website.
+
+The app helps you:
+- scan a folder before converting
+- review a file list before starting
+- choose exactly which files to include
+- detect exact duplicates
+- track progress while a batch runs
+- review a final summary when the job finishes
+
+## Features
+- Converts `HEIC`, `HEIF`, `PNG`, `WEBP`, `BMP`, `TIFF`, and `TIF` into JPG
+- Copies existing `JPG` and `JPEG` files through without re-encoding
+- Ignores hidden dotfiles and Apple sidecar files such as `._IMG_1234.JPG`
+- Uses SHA-256 hashes for exact duplicate detection
+- Supports duplicate modes: ask, skip all, or keep all with suffix
+- Supports performance modes: `Quiet`, `Balanced`, and `Fast`
+- Remembers recent folders and last-used settings in the browser
+- Can be opened on another device on the same local network
+- Includes an in-app About / Getting Started section for first-time users
 
 ## Supported Input Formats
 - `.heic`
@@ -31,303 +44,259 @@ Convert HEIC, HEIF, PNG, WEBP, BMP, TIFF, and JPEG-family images into JPG files 
 Output format:
 - `.jpg`
 
-## How The App Works
-This project has two parts:
-- `frontend/`: the web UI built with React + Vite
-- `backend/`: the local API server built with Express + TypeScript
+## What You Need
+- a Mac or Windows computer
+- [Node.js LTS](https://nodejs.org/) installed
+- internet access only for the one-time dependency install
 
-The backend runs on your laptop and performs scanning, duplicate detection, conversion, output writing, and job tracking.
+After setup, the actual conversion work is fully local on your computer.
 
-The frontend is the screen you use in the browser. It talks to the backend on port `4000`.
+## Quick Start
+If you already know how to use Terminal or Command Prompt:
 
-## Phone and Laptop Usage
-Your phone is not mirroring the laptop screen. Both devices are just separate clients connected to the same backend running on your laptop.
+```bash
+cd "PATH_TO_THIS_PROJECT"
+npm run install:all
+npm run dev
+```
 
-What syncs across devices:
-- created jobs
-- job progress
-- duplicate prompts
-- completed and cancelled job history in memory
+Then open:
 
-What does not sync automatically:
-- source and destination paths currently typed into a browser tab
-- scan preview results before a job is started
-- local error messages
+```text
+http://localhost:5173
+```
 
-That means:
-- if you click `Scan Images` on one device, only that device sees the scan preview
-- once you click `Start Conversion`, all connected devices can see the job progress
+## macOS Setup
+These steps are written for someone with no technical background.
 
-## Main Features
-### 1. Folder Scanning
-- Scans a chosen source folder
-- Optionally includes subfolders
-- Returns a preview list before conversion starts
+### 1. Install Node.js
+1. Go to [https://nodejs.org/](https://nodejs.org/).
+2. Download the current **LTS** version.
+3. Open the installer and finish the setup.
 
-### 2. Batch Conversion
-- Starts a job using the scanned file list
-- Processes files one by one inside that job
-- Shows current file, counts, and status
+### 2. Open the project folder
+1. Save or unzip this project somewhere easy to find, such as `Downloads` or `Documents`.
+2. Open `Finder`.
+3. Open the project folder.
 
-### 3. Parallel Jobs
-- You can start another job while a previous job is still running
-- Each job appears as its own card in the UI
+### 3. Open Terminal
+1. Press `Command + Space`.
+2. Type `Terminal`.
+3. Press `Return`.
 
-### 4. Duplicate Detection
-- Uses SHA-256 content hashing
-- Detects duplicates within the current job
-- Also checks destination files that match the app's naming pattern
+### 4. Move into the project folder
+Type `cd ` in Terminal, then drag the project folder into the Terminal window, then press `Return`.
 
-Duplicate handling modes:
+Example:
+
+```bash
+cd "/Users/yourname/Downloads/Convert Iphone images to JPJ Format"
+```
+
+### 5. Install the app dependencies
+Paste this command and press `Return`:
+
+```bash
+npm run install:all
+```
+
+Wait until it finishes.
+
+### 6. Start the app
+Paste this command and press `Return`:
+
+```bash
+npm run dev
+```
+
+You should see messages for:
+- backend on port `4000`
+- frontend on port `5173`
+
+### 7. Open the app
+Open your browser and go to:
+
+```text
+http://localhost:5173
+```
+
+## Windows Setup
+These steps are also written for a beginner.
+
+### 1. Install Node.js
+1. Go to [https://nodejs.org/](https://nodejs.org/).
+2. Download the current **LTS** version for Windows.
+3. Open the installer.
+4. Keep the default options and finish the setup.
+
+### 2. Open the project folder
+1. Save or unzip this project somewhere easy to find, such as `Downloads` or `Documents`.
+2. Open `File Explorer`.
+3. Open the project folder.
+
+### 3. Open Command Prompt
+1. Press the `Windows` key.
+2. Type `Command Prompt`.
+3. Press `Enter`.
+
+### 4. Move into the project folder
+Type `cd ` in Command Prompt, then drag the project folder into the Command Prompt window, then press `Enter`.
+
+Example:
+
+```bat
+cd "C:\Users\YourName\Downloads\Convert Iphone images to JPJ Format"
+```
+
+### 5. Install the app dependencies
+Paste this command and press `Enter`:
+
+```bat
+npm run install:all
+```
+
+Wait until it finishes.
+
+### 6. Start the app
+Paste this command and press `Enter`:
+
+```bat
+npm run dev
+```
+
+You should see messages for:
+- backend on port `4000`
+- frontend on port `5173`
+
+### 7. Open the app
+Open your browser and go to:
+
+```text
+http://localhost:5173
+```
+
+## How To Use The App
+1. Enter the source folder path.
+2. Enter the destination folder path.
+3. Adjust settings if needed.
+4. Click `Scan Images`.
+5. Review the scan breakdown and file list.
+6. Select or clear files as needed.
+7. Click `Start Conversion`.
+8. Watch progress in the job card.
+9. If the app finds an exact duplicate, choose how to handle it.
+10. Review the final summary when the job is done.
+
+The app now includes an in-app About / Getting Started section so new users can understand the flow without leaving the page.
+
+## Folder Path Examples
+macOS:
+
+```text
+/Users/yourname/Pictures/iPhone Photos
+/Volumes/ExternalDrive/Family Photos
+```
+
+Windows:
+
+```text
+C:\Users\YourName\Pictures\iPhone Photos
+D:\Family Photos
+```
+
+## Main Settings
+### JPEG Quality
+- Used when converting non-JPG files into JPG
+- Range: `60` to `100`
+
+### Duplicate Handling
 - `Ask every time`
 - `Skip all exact duplicates`
 - `Keep all exact duplicates with suffix`
 
-### 5. Duplicate Review Modal
-When duplicate mode is `Ask every time`, the app pauses the job and shows:
-- existing file preview when available
-- incoming file preview when available
-- `Skip New Image`
-- `Skip ALL Duplicates`
-- `Keep Both`
-- `Keep ALL Duplicates`
-
-### 6. Safe Original Deletion
-Original files are deleted only when:
-- output write succeeded
-- output file exists
-- output file is not empty
-- `Delete original after successful conversion` is enabled
-- `Keep original` is not enabled
-
-### 7. Cross-Device Control
-- Open the app from the laptop browser or a phone browser
-- As long as both devices are on the same network and the phone can reach the laptop, the phone can monitor and control running jobs
-
-## Installation
-### Requirements
-- Node.js installed on the laptop
-- npm installed
-- macOS recommended for the current local usage pattern
-
-Optional but important:
-- phone and laptop on the same Wi-Fi network if you want phone access
-
-### 1. Install Backend Dependencies
-```bash
-cd "/Users/mahesh/Downloads/Convert Iphone images to JPJ Format/backend"
-npm install
-```
-
-### 2. Install Frontend Dependencies
-```bash
-cd "/Users/mahesh/Downloads/Convert Iphone images to JPJ Format/frontend"
-npm install
-```
-
-## Running The App
-You need two terminals.
-
-### One Command Option
-From the project root:
-
-```bash
-cd "/Users/mahesh/Downloads/Convert Iphone images to JPJ Format"
-npm run dev
-```
-
-This starts:
-- backend on port `4000`
-- frontend on port `5173`
-
-Press `Ctrl+C` once in that terminal to stop both together.
-
-### Terminal 1: Start Backend
-```bash
-cd "/Users/mahesh/Downloads/Convert Iphone images to JPJ Format/backend"
-npm run dev
-```
-
-Backend default:
-- port `4000`
-
-### Terminal 2: Start Frontend
-```bash
-cd "/Users/mahesh/Downloads/Convert Iphone images to JPJ Format/frontend"
-npm run dev
-```
-
-Open the frontend URL shown by Vite in your browser on the laptop.
-
-## How To Use The App
-### Normal Flow
-1. Start backend and frontend.
-2. Open the app in your browser.
-3. Enter the source folder path.
-4. Enter the destination folder path.
-5. Choose settings.
-6. Click `Scan Images`.
-7. Review the scanned file preview.
-8. Click `Start Conversion`.
-9. Watch progress in the job card.
-10. If a duplicate appears, choose how to handle it.
-11. Wait for completion and review the summary.
-
-### Starting More Than One Job
-1. Finish scanning and start the first job.
-2. Enter another source or destination.
-3. Scan again.
-4. Start another job.
-
-The jobs run as separate tracked batches in the backend.
-
-## Settings Explained
-### JPEG Quality
-- Range: `60` to `100`
-- Used when the app converts non-JPG images into JPG
-
-### Duplicate Handling
-- `Ask every time`: pause and ask for each duplicate
-- `Skip all exact duplicates`: skip incoming duplicate files
-- `Keep all exact duplicates with suffix`: keep duplicates using indexed filenames
+### Performance Mode
+- `Quiet`: lower laptop load
+- `Balanced`: default
+- `Fast`: higher machine usage for faster throughput
 
 ### Include Subfolders
-- When enabled, the scanner walks nested folders too
+- Scans folders inside the source folder too
 
 ### Delete Original After Successful Conversion
-- Removes the original input file only after a safe successful write
+- Deletes the source file only after the output file was written safely
 
 ### Keep Original
-- Overrides delete behavior and preserves source files
+- Overrides delete behavior and preserves the source file
 
-## Output Naming
-The backend uses a generated output filename that includes:
-- a timestamp component
-- a sanitized version of the original base name
-- a hash-based suffix
-- a duplicate suffix when needed
+## Phone Access
+You can open the app on your phone if:
+- the app is already running on your computer
+- your phone and computer are on the same Wi-Fi network
 
-This helps keep filenames stable, informative, and collision-resistant.
+Open:
 
-## API Endpoints
-### `POST /api/scan`
-Request body:
-- `sourcePath`
-- `includeSubfolders`
-
-Purpose:
-- scan source folder and return matching files
-
-### `POST /api/jobs`
-Request body:
-- `sourcePath`
-- `destinationPath`
-- `settings`
-- `files`
-
-Purpose:
-- create and start a new job
-
-### `GET /api/jobs`
-Purpose:
-- return all jobs currently known to the backend
-
-### `GET /api/jobs/:jobId`
-Purpose:
-- return one job's current state
-
-### `POST /api/jobs/:jobId/duplicate`
-Request body:
-- `action`
-
-Purpose:
-- resolve a waiting duplicate decision
-
-### `POST /api/jobs/:jobId/cancel`
-Purpose:
-- cancel a running job
-
-### `GET /health`
-Purpose:
-- simple backend health check
-
-## Project Structure
 ```text
-Convert Iphone images to JPJ Format/
-├── README.md
-├── CONTRIBUTING.md
-├── HEIC_TO_JPG_APP_ARCHITECTURE.md
-├── backend/
-│   ├── package.json
-│   └── src/
-│       ├── server.ts
-│       ├── routes.ts
-│       ├── types.ts
-│       └── services/
-├── frontend/
-│   ├── package.json
-│   └── src/
-│       ├── App.tsx
-│       ├── api.ts
-│       ├── types.ts
-│       └── components/
+http://<your-computer-ip>:5173
 ```
 
-## Important Behavior Notes
-### 1. No Database
-The app does not use a database.
+Important:
+- the phone and laptop are separate clients
+- job progress is shared because it comes from backend memory
+- scan previews are local to the browser tab that ran the scan
 
-Job state is stored only in backend memory while the backend is running.
-
-### 2. Backend Restart Behavior
-If the backend restarts:
-- running and previous job state is lost
-- already created JPG files stay on disk
-
-### 3. Local Filesystem Scope
-The backend works with folders accessible from the laptop where it is running.
-
-The phone can control the app, but the actual file operations still happen on the laptop.
-
-### 4. Polling-Based Updates
-The frontend polls the backend every 1.2 seconds for job updates.
-
-There is no WebSocket or SSE channel right now.
+## How Conversion Works
+- Conversion runs locally on your machine
+- `sharp` is used for most image work
+- `heic-convert` is used as a fallback when needed
+- duplicate detection is hash-based
+- JPG and JPEG inputs are copied instead of re-encoded
 
 ## Troubleshooting
-### The Phone Can Open The Frontend But Jobs Do Not Update
-Check:
-- backend is running on the laptop
-- phone and laptop are on the same network
-- phone is opening the app using the laptop's reachable hostname or IP
-- port `4000` is reachable from the phone
+### The app says no supported images were found
+- Check that the folder contains supported image formats
+- Make sure the path is correct
+- Turn on `Include subfolders` if your images are inside nested folders
 
-### Scan Works But Other Device Does Not Show The Preview
-This is expected.
+### The app cannot access a folder
+- Check that the path still exists
+- On macOS, external drives usually appear under `/Volumes/...`
+- On Windows, double-check the drive letter, such as `D:\`
 
-Scan preview is stored only in the browser tab that performed the scan.
+### The browser opens but the app is not working
+- Make sure `npm run dev` is still running
+- Check that port `5173` is available
+- Check that the backend is also running on port `4000`
 
-### Conversion Starts But Files Are Not Written
-Check:
-- destination folder path is correct
-- backend process has filesystem permission
-- source files still exist at the scanned paths
+### My phone cannot connect
+- Make sure the phone and computer are on the same Wi-Fi network
+- Use your computer's local IP address instead of `localhost`
+- Allow local network access in your firewall if prompted
 
-### Originals Were Not Deleted
-Check:
-- `Delete original after successful conversion` is enabled
-- `Keep original` is not enabled
-- output file was written successfully
+## Build Check
+To verify the frontend and backend both compile:
 
-## Documentation Files
-- [README.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/README.md): install, run, usage, features, and operational guide
-- [HEIC_TO_JPG_APP_ARCHITECTURE.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/HEIC_TO_JPG_APP_ARCHITECTURE.md): technical architecture and shared-state behavior
-- [CONTRIBUTING.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/CONTRIBUTING.md): maintenance checklist for future changes
-- [CHANGELOG.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/CHANGELOG.md): running history of meaningful app changes
+```bash
+npm run build
+```
 
-## Documentation Maintenance Rule
-If app behavior changes, update:
-- `README.md` for user-facing flow or setup changes
-- `HEIC_TO_JPG_APP_ARCHITECTURE.md` for technical behavior changes
-- `CHANGELOG.md` for meaningful features, fixes, and behavior changes
-- `CONTRIBUTING.md` if the maintenance process changes
+## Current Limitations
+- There is no packaged installer yet
+- Job history is stored in backend memory and is lost if the backend restarts
+- Scan previews are not synced across devices
+- Folder access only works on the machine where the backend is running
+
+## Project Structure
+- `frontend/` - React + Vite frontend
+- `backend/` - Express + TypeScript backend
+- `dev.mjs` - cross-platform root dev launcher
+- `dev.sh` - shell-based launcher kept for local convenience
+- `HEIC_TO_JPG_APP_ARCHITECTURE.md` - technical architecture notes
+- `CHANGELOG.md` - meaningful release notes
+- `CONTRIBUTING.md` - maintenance checklist
+
+## Documentation Maintenance
+When behavior changes, keep these files in sync:
+- `README.md`
+- `HEIC_TO_JPG_APP_ARCHITECTURE.md`
+- `CHANGELOG.md`
+- `CONTRIBUTING.md` when the maintenance process changes
