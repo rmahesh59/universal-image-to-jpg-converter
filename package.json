@@ -2,7 +2,8 @@
   "name": "universal-image-to-jpg-converter",
   "private": true,
   "scripts": {
-    "dev": "sh ./dev.sh",
+    "dev": "node ./dev.mjs",
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
     "build": "npm --prefix backend run build && npm --prefix frontend run build"
   }
 }

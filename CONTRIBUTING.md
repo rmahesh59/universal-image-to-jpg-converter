@@ -5,6 +5,7 @@ Use this checklist whenever the app changes so code, behavior, and documentation
 
 ## Change Checklist
 - Verify the actual user-facing behavior in both `frontend/` and `backend/` matches the intended change.
+- Keep beginner-facing setup and startup steps accurate for both Windows and macOS when scripts or install commands change.
 - Update [HEIC_TO_JPG_APP_ARCHITECTURE.md](/Users/mahesh/Downloads/Convert%20Iphone%20images%20to%20JPJ%20Format/HEIC_TO_JPG_APP_ARCHITECTURE.md) if any of these changed:
   - app flow
   - backend endpoints
