@@ -60,6 +60,8 @@ npm run install:all
 npm run dev
 ```
 
+Run those commands from the project folder itself, not from a parent folder like `C:\` or `E:\`.
+
 Then open:
 
 ```text
@@ -167,6 +169,8 @@ npm run dev
 You should see messages for:
 - backend on port `4000`
 - frontend on port `5173`
+
+This command is meant to work from the project root on both Windows and macOS.
 
 ### 7. Open the app
 Open your browser and go to:
