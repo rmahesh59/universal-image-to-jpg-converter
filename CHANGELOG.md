@@ -12,6 +12,7 @@ All meaningful changes to this project should be recorded here.
 - Reduced-motion support for animated UI elements.
 
 ### Changed
+- Root `dev.mjs` launcher now starts npm through `cmd.exe` on Windows for better compatibility with Windows environments.
 - README rewritten to be more beginner-friendly with clearer Windows and macOS setup instructions.
 - Architecture document updated to reflect the root launcher, onboarding panel, immediate job fetch, and browser-local stored state.
 - Job polling now fetches once immediately on load instead of waiting for the first interval.
