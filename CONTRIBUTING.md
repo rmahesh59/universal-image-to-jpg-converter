@@ -1,7 +1,7 @@
 # Project Maintenance Checklist
 
-## Purpose
-Use this checklist whenever the app changes so code, behavior, and documentation stay aligned.
+This file is for contributors and future maintainers.
+Use it when the app changes and you want to make sure the code, docs, and behavior still match.
 
 ## Change Checklist
 - Verify the actual user-facing behavior in both `frontend/` and `backend/` matches the intended change.
