@@ -165,6 +165,12 @@ Duplicate detection is content-based:
 - computes SHA-256
 - uses the full hash for in-job duplicate detection
 - uses a 24-character hash prefix to compare against already existing destination JPG files
+- the same file content produces the same SHA-256 hash every time
+
+Important note:
+- the output filename is not only the hash
+- the generated name includes a timestamp, a sanitized base name, and a 24-character hash prefix
+- SHA-256 collisions are extremely unlikely in normal real-world use, so this is a practical way to identify exact duplicate content and reduce output naming conflicts
 
 Duplicate handling modes:
 - `ask`
