@@ -29,6 +29,19 @@ export function FinalSummary({
   const filesPerMinute =
     durationMs > 0 ? ((progress.completed / durationMs) * 60000).toFixed(1) : "0.0";
   const metrics = progress.metrics;
+  const detailedMetrics = [
+    `Images hashed: ${metrics.hashedCount}`,
+    `JPG copied: ${metrics.copiedJpgCount}`,
+    `HEIC/other converted: ${metrics.convertedImageCount}`,
+    `Total hash time: ${Math.round(metrics.totalHashMs)} ms`,
+    `Total convert time: ${Math.round(metrics.totalConvertMs)} ms`,
+    `Total write time: ${Math.round(metrics.totalWriteMs)} ms`,
+    `Total delete time: ${Math.round(metrics.totalDeleteMs)} ms`,
+    `Duplicate wait time: ${Math.round(metrics.totalDuplicateWaitMs)} ms`,
+    `Queue concurrency: ${metrics.queueConcurrency}`,
+    `Performance mode: ${metrics.performanceMode}`,
+    `Finished at: ${progress.finishedAt ?? "-"}`,
+  ];
 
   return (
     <div className="card final-summary">
@@ -54,21 +67,18 @@ export function FinalSummary({
         <p>Skipped duplicates: {progress.skippedDuplicates}</p>
         <p>Duplicate reviews raised: {reviewCount}</p>
         <p>Left unfinished: {untouchedCount}</p>
-        <p>Queue concurrency: {metrics.queueConcurrency}</p>
-        <p>Performance mode: {metrics.performanceMode}</p>
         <p>Average time per file: {avgPerFileMs} ms</p>
         <p>Files per minute: {filesPerMinute}</p>
-        <p>Images hashed: {metrics.hashedCount}</p>
-        <p>JPG copied: {metrics.copiedJpgCount}</p>
-        <p>HEIC/other converted: {metrics.convertedImageCount}</p>
-        <p>Total hash time: {Math.round(metrics.totalHashMs)} ms</p>
-        <p>Total convert time: {Math.round(metrics.totalConvertMs)} ms</p>
-        <p>Total write time: {Math.round(metrics.totalWriteMs)} ms</p>
-        <p>Total delete time: {Math.round(metrics.totalDeleteMs)} ms</p>
-        <p>Duplicate wait time: {Math.round(metrics.totalDuplicateWaitMs)} ms</p>
         <p>Destination: {progress.destinationPath}</p>
-        <p>Finished at: {progress.finishedAt ?? "-"}</p>
       </div>
+      <details className="summary-details">
+        <summary>Show detailed performance metrics</summary>
+        <div className="summary-detail-grid summary-detail-grid-compact">
+          {detailedMetrics.map((item) => (
+            <p key={item}>{item}</p>
+          ))}
+        </div>
+      </details>
       <div className="summary-actions">
         <button type="button" onClick={onOpenOutput}>
           Open Output Folder
