@@ -255,6 +255,13 @@ Important:
 - duplicate detection is hash-based
 - JPG and JPEG inputs are copied instead of re-encoded
 
+## How Hashing Helps
+- The app computes a SHA-256 hash from each file's actual data
+- The same image data produces the same SHA-256 hash every time
+- That hash is used to detect exact duplicates
+- A 24-character prefix of the hash is included in generated JPG filenames to help avoid naming conflicts
+- SHA-256 collisions are extremely unlikely in normal real-world use, so this is a practical way to identify exact duplicate content
+
 ## Troubleshooting
 ### The app says no supported images were found
 - Check that the folder contains supported image formats
